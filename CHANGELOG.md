@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <csr-read-only-do-not-edit/>
 
- - 13 commits contributed to the release.
+ - 14 commits contributed to the release.
  - 0 commits were understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
 
@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - Adjusting changelogs prior to release of natural-earth-basemap v0.1.0 ([`a2ac987`](https://github.com/Green-Nova/natural-earth-basemap/commit/a2ac987ed08d5f9f95b363b1206b0337a21876ec))
     - Adjusting changelogs prior to release of natural-earth-basemap v0.1.0 ([`4b6b583`](https://github.com/Green-Nova/natural-earth-basemap/commit/4b6b583ab8fa0496697a5fcd7faf6a541434d41c))
     - Updating changelog ([`99253cb`](https://github.com/Green-Nova/natural-earth-basemap/commit/99253cbe0ec1048fb07a92b52da48a500818493c))
     - Adjusting changelogs prior to release of natural-earth-basemap v0.1.0 ([`08a2db7`](https://github.com/Green-Nova/natural-earth-basemap/commit/08a2db77eddba54bfa296807f644247448c5e873))
