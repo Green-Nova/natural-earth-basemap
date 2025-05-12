@@ -5,13 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.1.0 (2025-05-12)
+## Unreleased
 
 ### Commit Statistics
 
 <csr-read-only-do-not-edit/>
 
- - 10 commits contributed to the release.
+ - 11 commits contributed to the release.
  - 0 commits were understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
 
@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - Adjusting changelogs prior to release of natural-earth-basemap v0.1.0 ([`08a2db7`](https://github.com/Green-Nova/natural-earth-basemap/commit/08a2db77eddba54bfa296807f644247448c5e873))
     - Adjusting changelogs prior to release of natural-earth-basemap v0.1.0 ([`2aebad5`](https://github.com/Green-Nova/natural-earth-basemap/commit/2aebad5abe8c415a6960a0d50d9b02309be31a63))
     - Created CHANGELOG.md ([`1f5bb7e`](https://github.com/Green-Nova/natural-earth-basemap/commit/1f5bb7e625b29afdd499c9492a1993ace1f27378))
     - Added some comments ([`5d5c524`](https://github.com/Green-Nova/natural-earth-basemap/commit/5d5c524cfe3cfb86a72679082cc61c378a4c8663))
@@ -33,4 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Adding an example ([`83ee843`](https://github.com/Green-Nova/natural-earth-basemap/commit/83ee843663a5ae95f946313d9108b5ddde017e9e))
     - Initial Commit ([`b8f49df`](https://github.com/Green-Nova/natural-earth-basemap/commit/b8f49df92cc2fe3eaefc4c4654ba8e98adc0443d))
 </details>
+
+## 0.1.0 (2025-05-12)
 
