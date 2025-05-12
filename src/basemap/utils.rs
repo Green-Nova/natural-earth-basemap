@@ -8,7 +8,8 @@ use resvg::usvg;
 use super::Map;
 
 /// Map from lon,lat to a pixel position
-#[must_use] pub fn mapping_function(lon: f64, lat: f64, map: &Map) -> (f64, f64) {
+#[must_use]
+pub fn mapping_function(lon: f64, lat: f64, map: &Map) -> (f64, f64) {
     // [-180-180] -> [xmin,xmax]
     // [xmin,xmax] -> [0, 1]
     let mapping_fn1 = |(lon, lat)| {
@@ -37,13 +38,13 @@ pub fn svg_to_png(input_svg_path: &PathBuf, output_png_path: &PathBuf) {
         .expect("Error creating bitmap");
     resvg::render(&tree, tiny_skia::Transform::default(), &mut pixmap.as_mut());
 
-    //pixmap.draw_pixmap(x, y, pixmap, paint, transform, mask);
     // Save the pixmap to a file
     pixmap.save_png(output_png_path).expect("Error writing png");
 }
 
 /// Convert from svg to buffer
-#[must_use] pub fn svg_to_image_buffer(input_svg_path: &PathBuf) -> ImageBuffer<image::Rgba<u8>, Vec<u8>> {
+#[must_use]
+pub fn svg_to_image_buffer(input_svg_path: &PathBuf) -> ImageBuffer<image::Rgba<u8>, Vec<u8>> {
     let tree = create_svg_tree(input_svg_path);
     let pixmap_size = tree.size().to_int_size();
     let mut pixmap = tiny_skia::Pixmap::new(pixmap_size.width(), pixmap_size.height())

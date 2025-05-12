@@ -2,7 +2,7 @@
 use std::{fs::File, io::BufReader, path::PathBuf};
 
 use shapefile::{Reader, Shape};
-use styles::{LayerStyle, grey_style};
+use styles::LayerStyle;
 use svg::{Document, Node, node::element};
 use utils::mapping_function;
 
@@ -27,7 +27,7 @@ pub fn set_background(map: &Map, document: &mut Document) {
 
 /// Draw the basemap
 pub fn draw_basemap(map: &Map, document: &mut Document) {
-    let layers = grey_style();
+    let layers = styles::classic_style();
     //set_background(map, document);
     for (filename, layer_style) in layers {
         let file_path = PathBuf::from(format!("data/10m_physical/{filename}"));
@@ -57,21 +57,7 @@ pub fn visualize_shapefile(
                         .collect();
 
                     // TODO Check if this falls entirely within the map
-                    // TODO move this draw polygon function
-                    let data = data.move_to(pts[0]);
-                    let data = pts.iter().fold(data, |data, position| {
-                        data.line_to((position.0, position.1))
-                    });
-
-                    let path = element::Path::new()
-                        .set("fill", layer_style.fill)
-                        .set("fill-opacity", layer_style.fill_opacity)
-                        .set("stroke", layer_style.stroke)
-                        .set("stroke-width", layer_style.stroke_width)
-                        .set("stroke-linejoin", "round")
-                        .set("d", data);
-
-                    document.append(path);
+                    draw_polygon(&pts, document, &layer_style, data);
                 }
             }
 
@@ -83,24 +69,57 @@ pub fn visualize_shapefile(
                         .map(|point| mapping_function(point.x, point.y, map))
                         .collect();
 
-                    // TODO move this draw line function
-                    let data = data.move_to(pts[0]);
-                    let data = pts.iter().fold(data, |data, position| {
-                        data.line_to((position.0, position.1))
-                    });
-
-                    let path = element::Path::new()
-                        .set("fill", layer_style.fill)
-                        .set("fill-opacity", layer_style.fill_opacity)
-                        .set("stroke", layer_style.stroke)
-                        .set("stroke-width", layer_style.stroke_width)
-                        .set("stroke-linejoin", "round")
-                        .set("d", data);
-
-                    document.append(path);
+                    // TODO Check if this falls entirely within the map
+                    draw_polyline(&pts, document, &layer_style, data);
                 }
             }
             _ => {}
         }
     }
+}
+
+/// Draw a polygon
+pub fn draw_polygon(
+    pts: &Vec<(f64, f64)>,
+    document: &mut Document,
+    layer_style: &LayerStyle,
+    data: element::path::Data,
+) {
+    let data = data.move_to(pts[0]);
+    let data = pts.iter().fold(data, |data, position| {
+        data.line_to((position.0, position.1))
+    });
+
+    let path = element::Path::new()
+        .set("fill", layer_style.fill)
+        .set("fill-opacity", layer_style.fill_opacity)
+        .set("stroke", layer_style.stroke)
+        .set("stroke-width", layer_style.stroke_width)
+        .set("d", data);
+
+    document.append(path);
+}
+
+/// Draw a polyline
+pub fn draw_polyline(
+    pts: &Vec<(f64, f64)>,
+    document: &mut Document,
+    layer_style: &LayerStyle,
+    data: element::path::Data,
+) {
+    
+    let data = data.move_to(pts[0]);
+    let data = pts.iter().fold(data, |data, position| {
+        data.line_to((position.0, position.1))
+    });
+
+    let path = element::Path::new()
+        .set("fill", layer_style.fill)
+        .set("fill-opacity", layer_style.fill_opacity)
+        .set("stroke", layer_style.stroke)
+        .set("stroke-width", layer_style.stroke_width)
+        .set("stroke-linejoin", "round")
+        .set("d", data);
+
+    document.append(path);
 }
