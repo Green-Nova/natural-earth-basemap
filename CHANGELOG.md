@@ -5,13 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.1.0 (2025-05-12)
 
 ### Commit Statistics
 
 <csr-read-only-do-not-edit/>
 
- - 8 commits contributed to the release.
+ - 9 commits contributed to the release.
  - 0 commits were understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
 
@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - Created CHANGELOG.md ([`1f5bb7e`](https://github.com/Green-Nova/natural-earth-basemap/commit/1f5bb7e625b29afdd499c9492a1993ace1f27378))
     - Added some comments ([`5d5c524`](https://github.com/Green-Nova/natural-earth-basemap/commit/5d5c524cfe3cfb86a72679082cc61c378a4c8663))
     - Added new ocean style ([`5ae1838`](https://github.com/Green-Nova/natural-earth-basemap/commit/5ae18386362010e99273f3d7de2a50298be463a4))
     - Refactoring code ([`06b4003`](https://github.com/Green-Nova/natural-earth-basemap/commit/06b40035ea5d81e9153d8ef49d9f7979c1973b9d))
