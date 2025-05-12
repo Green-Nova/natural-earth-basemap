@@ -27,12 +27,13 @@ pub fn set_background(map: &Map, document: &mut Document) {
 
 /// Draw the basemap
 pub fn draw_basemap(map: &Map, document: &mut Document) {
-    let layers = styles::classic_style();
-    //set_background(map, document);
+    let layers = styles::ocean_style();
+    set_background(map, document);
     for (filename, layer_style) in layers {
         let file_path = PathBuf::from(format!("data/10m_physical/{filename}"));
-        let reader = shapefile::Reader::from_path(file_path).expect("Error loading shapefile");
-        visualize_shapefile(map, reader, document, layer_style);
+        let reader = shapefile::Reader::from_path(&file_path)
+            .unwrap_or_else(|_| panic!("Error loading shapefile: {}", file_path.display()));
+        visualize_shapefile(map, reader, document, &layer_style);
     }
 }
 
@@ -41,7 +42,7 @@ pub fn visualize_shapefile(
     map: &Map,
     mut reader: Reader<BufReader<File>, BufReader<File>>,
     document: &mut Document,
-    layer_style: LayerStyle,
+    layer_style: &LayerStyle,
 ) {
     for result in reader.iter_shapes_and_records() {
         let (shape, _record) = result.expect("Error reading data from shapefile");
@@ -56,8 +57,12 @@ pub fn visualize_shapefile(
                         .map(|point| mapping_function(point.x, point.y, map))
                         .collect();
 
-                    // TODO Check if this falls entirely within the map
-                    draw_polygon(&pts, document, &layer_style, data);
+                    // TODO account for cases like the ocean, which are completely outside the map
+                    // Check if the polygon is entirely within the map
+                    //if !pts.iter().all(|pt| pt.0 >= 0.0 && pt.0 <= map.cols as f64 && pt.1 >= 0.0 && pt.1 <= map.rows as f64) {
+                    //    continue;
+                    //}
+                    draw_polygon(&pts, document, layer_style, data);
                 }
             }
 
@@ -69,8 +74,17 @@ pub fn visualize_shapefile(
                         .map(|point| mapping_function(point.x, point.y, map))
                         .collect();
 
-                    // TODO Check if this falls entirely within the map
-                    draw_polyline(&pts, document, &layer_style, data);
+                    // Check if the polyline is entirely within the map
+                    if !pts.iter().all(|pt| {
+                        pt.0 >= 0.0
+                            && pt.0 <= f64::from(map.cols)
+                            && pt.1 >= 0.0
+                            && pt.1 <= f64::from(map.rows)
+                    }) {
+                        continue;
+                    }
+
+                    draw_polyline(&pts, document, layer_style, data);
                 }
             }
             _ => {}
@@ -107,7 +121,6 @@ pub fn draw_polyline(
     layer_style: &LayerStyle,
     data: element::path::Data,
 ) {
-    
     let data = data.move_to(pts[0]);
     let data = pts.iter().fold(data, |data, position| {
         data.line_to((position.0, position.1))
