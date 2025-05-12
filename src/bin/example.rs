@@ -8,7 +8,7 @@ use natural_earth_basemap::basemap::{Map, draw::draw_basemap};
 #[command(version, about, long_about = None)]
 struct Args {
     /// Map cols (Width of map in pixels )
-    #[arg(long, default_value_t = 16_000)]  
+    #[arg(long, default_value_t = 16_000)]
     map_cols: u32,
 
     /// Map rows (Width of map in pixels )
@@ -48,7 +48,7 @@ pub fn main() {
         lat_max: args.lat_max,
     };
 
-    let output_path = std::path::PathBuf::from(args.output_path);
+    let output_path = args.output_path;
 
     draw_map(&map, &output_path);
 }

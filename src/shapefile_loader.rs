@@ -14,7 +14,7 @@ pub enum GeoFeature {
 
 /// Load a shapefile. (TODO IMPROVE)
 #[must_use]
-pub fn load_shapefile(file_path: PathBuf) -> Vec<Vec<(f64, f64)>> {
+pub fn load_shapefile(file_path: &PathBuf) -> Vec<Vec<(f64, f64)>> {
     let mut reader = shapefile::Reader::from_path(file_path.clone())
         .unwrap_or_else(|_| panic!("Error loading shapefile:{file_path:?}"));
 
@@ -43,7 +43,7 @@ pub fn load_geopolys(geographical_feature: &GeoFeature) -> FxHashMap<usize, Poly
         GeoFeature::Reefs => PathBuf::from("data/basemap/10m_physical/ne_10m_reefs.shp"),
     };
 
-    let mut polygons = load_shapefile(file_path);
+    let mut polygons = load_shapefile(&file_path);
 
     // Generate Geo Polygons
     let mut geo_polys = FxHashMap::default();
