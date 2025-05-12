@@ -86,6 +86,7 @@ pub fn classic_style<'a>() -> Vec<(&'static str, LayerStyle<'a>)> {
     ]
 }
 
+/// Ocean style that shows the bathymetry
 #[must_use]
 pub fn ocean_style<'a>() -> Vec<(&'static str, LayerStyle<'a>)> {
     vec![

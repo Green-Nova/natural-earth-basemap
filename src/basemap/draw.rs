@@ -17,6 +17,8 @@ pub fn set_background(map: &Map, document: &mut Document) {
         .line_to((map.cols, map.rows))
         .line_to((map.cols, 0));
 
+
+    // TODO allow the background to be set by the style
     let path = element::Path::new()
         .set("stroke", "white")
         .set("fill", "white")
