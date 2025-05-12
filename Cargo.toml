@@ -2,6 +2,10 @@
 name = "natural-earth-basemap"
 version = "0.1.0"
 edition = "2024"
+description = "A Rust library for creating SVG basemaps using Natural Earth data, supporting multiple styles and customizable map projections"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+keywords = ["vector-graphics", "graphics", "map","visualization"]
 
 [dependencies]
 clap = { version = "4.5.27", features = ["derive"] }
