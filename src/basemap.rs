@@ -3,6 +3,7 @@
 pub mod draw;
 pub mod styles;
 pub mod utils;
+pub mod projections;
 
 /// Map struct
 /// This struct contains the information needed to draw a map

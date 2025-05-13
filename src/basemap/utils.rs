@@ -5,32 +5,6 @@ use std::path::PathBuf;
 use image::ImageBuffer;
 use resvg::usvg;
 
-use super::Map;
-
-
-/// Map from lon,lat to a pixel position
-#[must_use]
-pub fn equirectangular_mapping_function(lon: f64, lat: f64, map: &Map) -> (f64, f64) {
-    // [-180-180] -> [xmin,xmax]
-    // [xmin,xmax] -> [0, 1]
-    let mapping_fn1 = |(lon, lat)| {
-        (
-            (lon - map.lon_min) / (map.lon_max - map.lon_min),
-            (lat - map.lat_min) / (map.lat_max - map.lat_min),
-        )
-    };
-
-   
-    // Scale coordinates to the map size
-    let mapping_fn2 = |(x, y)| {
-        (
-            f64::from(map.cols) * x,
-            f64::from(map.rows) - f64::from(map.rows) * y,
-        )
-    };
-
-    mapping_fn2(mapping_fn1((lon, lat)))
-}
 
 /// Convert from svg to png
 pub fn svg_to_png(input_svg_path: &PathBuf, output_png_path: &PathBuf) {
