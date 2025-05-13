@@ -7,9 +7,10 @@ use resvg::usvg;
 
 use super::Map;
 
+
 /// Map from lon,lat to a pixel position
 #[must_use]
-pub fn mapping_function(lon: f64, lat: f64, map: &Map) -> (f64, f64) {
+pub fn equirectangular_mapping_function(lon: f64, lat: f64, map: &Map) -> (f64, f64) {
     // [-180-180] -> [xmin,xmax]
     // [xmin,xmax] -> [0, 1]
     let mapping_fn1 = |(lon, lat)| {
@@ -19,7 +20,8 @@ pub fn mapping_function(lon: f64, lat: f64, map: &Map) -> (f64, f64) {
         )
     };
 
-    //Equirectangular Projection
+   
+    // Scale coordinates to the map size
     let mapping_fn2 = |(x, y)| {
         (
             f64::from(map.cols) * x,

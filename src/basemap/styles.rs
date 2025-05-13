@@ -252,6 +252,16 @@ pub fn ocean_style<'a>() -> Vec<(&'static str, LayerStyle<'a>)> {
                 stroke_width: "1",
             },
         ),
+
+        (
+            "ne_10m_geography_marine_polys.shp",
+            LayerStyle {
+                stroke: "black",
+                fill: "black",
+                fill_opacity: "1.0",
+                stroke_width: "0",
+            },
+        ),
     ]
 }
 

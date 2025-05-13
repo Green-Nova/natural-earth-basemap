@@ -1,10 +1,10 @@
 //! Draw the basemap
 use std::{fs::File, io::BufReader, path::PathBuf};
 
-use shapefile::{Reader, Shape};
+
 use styles::LayerStyle;
 use svg::{Document, Node, node::element};
-use utils::mapping_function;
+use utils::equirectangular_mapping_function;
 
 use super::{Map, styles, utils};
 
@@ -39,24 +39,71 @@ pub fn draw_basemap(map: &Map, document: &mut Document) {
     }
 }
 
+/// Draw a point with a text label
+pub fn draw_point(
+    point: (f64, f64),
+    document: &mut Document,
+    layer_style: &LayerStyle,
+    label: Option<&str>,
+) {
+    // Draw the point marker
+    let circle = element::Circle::new()
+        .set("cx", point.0)
+        .set("cy", point.1)
+        .set("r", "2")  // Small circle for the point
+        .set("fill", layer_style.fill)
+        .set("stroke", layer_style.stroke)
+        .set("stroke-width", layer_style.stroke_width);
+    document.append(circle);
+
+    // Draw the label if provided
+    if let Some(text) = label {
+        let text_element = element::Text::new(text)
+            .set("x", point.0 + 5.0)  // Offset from point
+            .set("y", point.1 + 5.0)
+            .set("font-family", "Arial")
+            .set("font-size", "12px")
+            .set("fill", layer_style.stroke);
+        document.append(text_element);
+    }
+}
+
 /// Visualize a shapefile
 pub fn visualize_shapefile(
     map: &Map,
-    mut reader: Reader<BufReader<File>, BufReader<File>>,
+    mut reader: shapefile::Reader<BufReader<File>, BufReader<File>>,
     document: &mut Document,
     layer_style: &LayerStyle,
 ) {
     for result in reader.iter_shapes_and_records() {
-        let (shape, _record) = result.expect("Error reading data from shapefile");
-
+        let (shape, record) = result.expect("Error reading data from shapefile");
+        
+        if record.get("name_en").is_some() {
+            let label = record.get("name_en").unwrap();
+            match label {
+                shapefile::dbase::FieldValue::Character(s) => {
+                    if let Some(label) = s {
+                        println!("label: {:?}", label);
+                    }
+                }
+                _ => {
+                    
+                }
+            }
+        }
+        
         match shape {
-            Shape::Polygon(polygon) => {
+            //shapefile::Shape::Point(point) => {
+            //    let mapped_point = equirectangular_mapping_function(point.x, point.y, map);
+            //    draw_point(mapped_point, document, layer_style, label.as_deref());
+            //}
+            shapefile::Shape::Polygon(polygon) => {
                 for ring in polygon.rings() {
                     let data = element::path::Data::new();
                     let pts: Vec<_> = ring
                         .points()
                         .iter()
-                        .map(|point| mapping_function(point.x, point.y, map))
+                        .map(|point| equirectangular_mapping_function(point.x, point.y, map))
                         .collect();
 
                     // TODO account for cases like the ocean, which are completely outside the map
@@ -68,12 +115,12 @@ pub fn visualize_shapefile(
                 }
             }
 
-            Shape::Polyline(polyline) => {
+            shapefile::Shape::Polyline(polyline) => {
                 for part in polyline.parts() {
                     let data = element::path::Data::new();
                     let pts: Vec<_> = part
                         .iter()
-                        .map(|point| mapping_function(point.x, point.y, map))
+                        .map(|point| equirectangular_mapping_function(point.x, point.y, map))
                         .collect();
 
                     // Check if the polyline is entirely within the map
