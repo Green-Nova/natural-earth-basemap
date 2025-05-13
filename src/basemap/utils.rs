@@ -5,7 +5,6 @@ use std::path::PathBuf;
 use image::ImageBuffer;
 use resvg::usvg;
 
-
 /// Convert from svg to png
 pub fn svg_to_png(input_svg_path: &PathBuf, output_png_path: &PathBuf) {
     let tree = create_svg_tree(input_svg_path);

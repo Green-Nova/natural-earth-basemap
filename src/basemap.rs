@@ -1,9 +1,9 @@
 //! Draw the basemap
 
 pub mod draw;
+pub mod projections;
 pub mod styles;
 pub mod utils;
-pub mod projections;
 
 /// Map struct
 /// This struct contains the information needed to draw a map

@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use clap::Parser;
-use natural_earth_basemap::basemap::{Map, draw::draw_basemap};
+use natural_earth_basemap::basemap::{draw::draw_basemap, utils::svg_to_png, Map};
 
 /// Visualize Example
 #[derive(Parser, Debug)]
@@ -59,4 +59,5 @@ pub fn draw_map(map: &Map, output_path: &PathBuf) {
     draw_basemap(map, &mut document);
 
     svg::save(output_path, &document).expect("Error saving svg");
+    svg_to_png(output_path, &PathBuf::from("Map.png"));
 }

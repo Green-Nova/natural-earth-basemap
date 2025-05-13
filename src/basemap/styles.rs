@@ -23,10 +23,10 @@ pub fn classic_style<'a>() -> Vec<(&'static str, LayerStyle<'a>)> {
         (
             "ne_10m_ocean.shp",
             LayerStyle {
-                stroke: "black",
+                stroke: "none",
                 fill: "lightseagreen",
-                fill_opacity: "0.5",
-                stroke_width: "1",
+                fill_opacity: "1.0",
+                stroke_width: "0",
             },
         ),
         (
