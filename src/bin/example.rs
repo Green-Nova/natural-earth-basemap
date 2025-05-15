@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use clap::Parser;
-use natural_earth_basemap::basemap::{draw::draw_basemap, utils::svg_to_png, Map};
+use natural_earth_basemap::basemap::{Map, draw::draw_basemap, utils::svg_to_png};
 
 /// Visualize Example
 #[derive(Parser, Debug)]

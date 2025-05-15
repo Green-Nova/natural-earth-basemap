@@ -1,60 +1,103 @@
+// This file is now empty. Equirectangular and orthographic projections are in their own modules: equirectangular.rs and orthographic.rs.
+
 //! Module for projections
 
-use super::Map;
+pub mod equirectangular;
+pub mod orthographic;
 
-/// Map from lon,lat to a pixel position
-#[must_use]
-pub fn equirectangular_mapping_function(lat: f64, lon: f64, map: &Map) -> (f64, f64) {
-    // [-180-180] -> [xmin,xmax]
-    // [xmin,xmax] -> [0, 1]
-    let mapping_fn1 = |(lat, lon)| {
-        (
-            (lon - map.lon_min) / (map.lon_max - map.lon_min),
-            (lat - map.lat_min) / (map.lat_max - map.lat_min),
-        )
-    };
 
-    // Scale coordinates to the map size
-    let mapping_fn2 = |(x, y)| {
-        (
-            f64::from(map.cols) * x,
-            f64::from(map.rows) - f64::from(map.rows) * y,
-        )
-    };
+/// A 3D point in Cartesian coordinates
+#[derive(Debug, Clone, Copy)]
+pub struct Point3D {
+    /// x coordinate
+    pub x: f64,
+    /// y coordinate 
+    pub y: f64,
+    /// z coordinate
+    pub z: f64,
+}
 
-    mapping_fn2(mapping_fn1((lat, lon)))
+impl Point3D {
+    /// Create a new 3D point
+    #[must_use]
+    pub fn new(x: f64, y: f64, z: f64) -> Self {
+        Self { x, y, z }
+    }
+
+    /// Create a 3D point from latitude and longitude (in degrees)
+    #[must_use] 
+    pub fn from_lat_lon(lat: f64, lon: f64) -> Self {
+        let (x, y, z) = lat_lon_to_xyz(lat, lon);
+        Self { x, y, z }
+    }
+
+    /// Calculate dot product with another point
+    #[must_use]
+    pub fn dot(&self, other: &Point3D) -> f64 {
+        self.x * other.x + self.y * other.y + self.z * other.z
+    }
+    /// Check if this point is visible from a camera location
+    #[must_use]
+    pub fn is_visible(&self, camera: &Point3D) -> bool {
+        let camera_point_vector = Point3D::new(
+            camera.x - self.x,
+            camera.y - self.y, 
+            camera.z - self.z
+        );
+        self.dot(&camera_point_vector) > 0.0
+    }
+
+
+    /// Rotates a 3D point by three Euler angles (in radians) using the ZYX (intrinsic) convention.
+    /// This means the rotations are applied in the following order:
+    /// 1. Rotation around Z axis (yaw)
+    /// 2. Rotation around Y axis (pitch)
+    /// 3. Rotation around X axis (roll)
+    ///
+    /// # Arguments
+    ///
+    /// * `point` - The point to rotate as (x,y,z)
+    /// * `angles` - The rotation angles in radians as (roll, pitch, yaw)
+    ///
+    /// # Returns
+    ///
+    /// The rotated point as (x,y,z)
+    pub fn rotate_point(&mut self, angles: (f64, f64, f64)){
+    let (roll, pitch, yaw) = angles;
+
+    // Pre-compute trig functions
+    let (sin_a, cos_a) = roll.sin_cos();
+    let (sin_b, cos_b) = pitch.sin_cos();
+    let (sin_c, cos_c) = yaw.sin_cos();
+
+    // Extract point coordinates
+    let (x, y, z) = (&self.x, &self.y, &self.z);
+
+    // Apply rotations in ZYX order
+    let x1 = x * (cos_b * cos_c) + y * (-cos_b * sin_c) + z * sin_b;
+    let y1 = x * (cos_a * sin_c + sin_a * sin_b * cos_c)
+        + y * (cos_a * cos_c - sin_a * sin_b * sin_c)
+        + z * (-sin_a * cos_b);
+    let z1 = x * (sin_a * sin_c - cos_a * sin_b * cos_c)
+        + y * (sin_a * cos_c + cos_a * sin_b * sin_c)
+        + z * (cos_a * cos_b);
+
+    self.x = x1;
+    self.y = y1;
+    self.z = z1;
+}
+
 }
 
 
-
-#[must_use]
-pub fn orthographic_mapping_function(lat: f64, lon: f64, map: &Map, camera_location: (f64, f64, f64)) -> (f64, f64) {
-    // Scaling coordinates from [-1,1] to [0, 1]
-    let mapping_fn1 = |(a, b)| ((a + 1.0) / (2.0), (b + 1.0) / (2.0));
-
-    // Scale coordinates to the map size
-    let mapping_fn2 = |(x, y)| {
-        (
-            f64::from(map.cols) * x,
-            f64::from(map.rows) - f64::from(map.rows) * y,
-        )
-    };
-
-    let (x, y, z) = lat_lon_to_xyz(lat, lon);
-    
-
-    // Project point onto basis vectors
-    let u= y;
-    let v = z;
-    
-    if !point_visible(lat, lon, camera_location) {
-        let norm = (u.powi(2) + v.powi(2)).sqrt();
-        let u = u / norm;
-        let v = v / norm;
-        return mapping_fn2(mapping_fn1((u, v)));
-    } else {
-        return mapping_fn2(mapping_fn1((u, v)));
-    }
+/// Check if a point is visible from the camera location
+pub fn point_visible_xyz(point: (f64, f64, f64), camera_location: (f64, f64, f64)) -> bool {
+    let camera_point_vector = (
+        camera_location.0 - point.0,
+        camera_location.1 - point.1,
+        camera_location.2 - point.2,
+    );
+    dot(point, camera_point_vector) > 0.0
 }
 
 /// Check if a point is visible from the camera location
@@ -63,7 +106,11 @@ pub fn point_visible(lat: f64, lon: f64, camera_location: (f64, f64, f64)) -> bo
     let v1 = (x, y, z);
 
     // Camera location
-    let v2 = (camera_location.0 - x, camera_location.1 - y, camera_location.2 - z);
+    let v2 = (
+        camera_location.0 - x,
+        camera_location.1 - y,
+        camera_location.2 - z,
+    );
     dot(v1, v2) > 0.0
 }
 
@@ -105,3 +152,33 @@ fn lat_lon_to_xyz(lat: f64, lon: f64) -> (f64, f64, f64) {
 fn dot(v1: (f64, f64, f64), v2: (f64, f64, f64)) -> f64 {
     v1.0 * v2.0 + v1.1 * v2.1 + v1.2 * v2.2
 }
+
+
+/*
+
+
+/*
+// TODO Visible count needs to take into account the rotation of the sphere
+let visible_count = ring
+.points()
+.iter()
+.filter(|point| point_visible(point.y, point.x, camera_location))
+.count();
+
+//if visible_count > 3 {
+let pts: Vec<_> = ring
+    .points()
+    .iter()
+    .map(|point| {
+        orthographic_mapping_function(
+            point.y,
+            point.x,
+            map,
+            camera_location,
+        )
+    })
+    .collect();
+draw_polygon(&pts, document, layer_style);
+//}
+
+*/*/

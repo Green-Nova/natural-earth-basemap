@@ -3,14 +3,13 @@ use std::{fs::File, io::BufReader, path::PathBuf};
 
 use styles::LayerStyle;
 use svg::{Document, Node, node::element};
-//use projections::equirectangular_mapping_function;
-use projections::orthographic_mapping_function;
 
-use super::{
-    Map,
-    projections::{self, point_visible},
-    styles,
-};
+use super::{projections::{orthographic::orthographic_mapping_function, Point3D}, styles, Map};
+
+// TODO add text
+// TODO add graticules
+// TODO Add svg shading
+
 
 /// Set the background of the map
 pub fn set_background(map: &Map, document: &mut Document) {
@@ -42,35 +41,6 @@ pub fn draw_basemap(map: &Map, document: &mut Document) {
     }
 }
 
-/// Draw a point with a text label
-pub fn draw_point(
-    point: (f64, f64),
-    document: &mut Document,
-    layer_style: &LayerStyle,
-    label: Option<&str>,
-) {
-    // Draw the point marker
-    let circle = element::Circle::new()
-        .set("cx", point.0)
-        .set("cy", point.1)
-        .set("r", "2") // Small circle for the point
-        .set("fill", layer_style.fill)
-        .set("stroke", layer_style.stroke)
-        .set("stroke-width", layer_style.stroke_width);
-    document.append(circle);
-
-    // Draw the label if provided
-    if let Some(text) = label {
-        let text_element = element::Text::new(text)
-            .set("x", point.0 + 5.0) // Offset from point
-            .set("y", point.1 + 5.0)
-            .set("font-family", "Arial")
-            .set("font-size", "12px")
-            .set("fill", layer_style.stroke);
-        document.append(text_element);
-    }
-}
-
 /// Visualize a shapefile
 pub fn visualize_shapefile(
     map: &Map,
@@ -79,6 +49,7 @@ pub fn visualize_shapefile(
     layer_style: &LayerStyle,
     camera_location: (f64, f64, f64),
 ) {
+    let camera_point = Point3D::new(camera_location.0, camera_location.1, camera_location.2);
     for result in reader.iter_shapes_and_records() {
         let (shape, record) = result.expect("Error reading data from shapefile");
 
@@ -98,49 +69,77 @@ pub fn visualize_shapefile(
         }
          */
         match shape {
-            //shapefile::Shape::Point(point) => {
-            //    let mapped_point = equirectangular_mapping_function(point.x, point.y, map);
-            //    draw_point(mapped_point, document, layer_style, label.as_deref());
-            //}
+            /*
+            shapefile::Shape::Point(point) => {
+                // DO Stuff
+                //1. Transform to ECEF
+                    //2. Transform to camera coordinates
+                    //3. Check if the point is visible
+                    //4. If visible, transform to screen coordinates
+                    //5. If visible in screen coordinates, draw the point
+            }
+             */
             shapefile::Shape::Polygon(polygon) => {
                 for ring in polygon.rings() {
-                    let visible_count = ring
-                        .points()
-                        .iter()
-                        .filter(|point| point_visible(point.y, point.x, camera_location))
-                        .count();
-
-                    if visible_count > 3 {
-                        let pts: Vec<_> = ring
-                            .points()
-                            .iter()
-                            .map(|point| orthographic_mapping_function(point.y, point.x, map, camera_location))
-                            .collect();
-                        draw_polygon(&pts, document, layer_style);
+                    let mut points = Vec::new();
+                    for point in ring.points() {
+                        //1. Transform to ECEF
+                        let mut point3d = Point3D::from_lat_lon(point.y, point.x);
+                        //2. Transform to camera coordinates
+                        point3d.rotate_point((0.0, 0.0, 0.0));
+                        //3. Check if the point is visible
+                        if point3d.is_visible(&camera_point) {
+                            let (x, y) = orthographic_mapping_function(point3d, map, camera_location);
+                            //4. If visible, transform to screen coordinates
+                            //5. If visible in screen coordinates, draw the point
+                            points.push((x, y));
+                        }
+                    }
+                    if points.len() > 3 {
+                        draw_polygon(&points, document, layer_style);
                     }
                 }
-            }
+            } 
 
+            /*
             shapefile::Shape::Polyline(polyline) => {
                 for part in polyline.parts() {
-                    let visible_count = part
-                        .iter()
-                        .filter(|point| point_visible(point.y, point.x, camera_location))
-                        .count();
-
-                    if visible_count > 3 {
-                        let pts: Vec<_> = part
-                            .iter()
-                            .map(|point| orthographic_mapping_function(point.y, point.x, map, camera_location))
-                            .collect();
-                        draw_polyline(&pts, document, layer_style);
-                    }
+                    //1. Transform to ECEF
+                    //2. Transform to camera coordinates
+                    //3. Check if the PolyLine is completely/partially/not visible
+                    //4. If visible, transform to screen coordinates
+                    //5. If visible in screen coordinates, draw the PolyLine
                 }
             }
+            */
 
             _ => {}
         }
     }
+}
+
+
+
+/// Draw a point with a text label
+pub fn draw_point(
+    point: (f64, f64),
+    document: &mut Document,
+    layer_style: &LayerStyle,
+) {
+    // Draw the point marker
+    let circle = element::Circle::new()
+        .set("cx", point.0)
+        .set("cy", point.1)
+        .set("r", "2") // Small circle for the point
+        .set("fill", layer_style.fill)
+        .set("stroke", layer_style.stroke)
+        .set("stroke-width", layer_style.stroke_width);
+    document.append(circle);
+}
+
+/// Draw text
+pub fn draw_text(text: &str, document: &mut Document, layer_style: &LayerStyle) {
+    // Do Stuff
 }
 
 /// Draw a polygon

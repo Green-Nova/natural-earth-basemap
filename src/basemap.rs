@@ -21,3 +21,5 @@ pub struct Map {
     /// The maximum longitude of the raster
     pub lon_max: f64,
 }
+
+
