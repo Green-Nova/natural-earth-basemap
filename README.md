@@ -2,6 +2,8 @@
 
 A Rust library for generating beautiful basemaps using Natural Earth data. This project provides tools to create high-quality map visualizations with customizable styling and rendering options.
 
+[![Coverage Status](https://coveralls.io/repos/github/Green-Nova/natural-earth-basemap/badge.svg?branch=master)](https://coveralls.io/github/Green-Nova/natural-earth-basemap?branch=master)
+
 ## Features
 
 - Process and render Natural Earth vector data
