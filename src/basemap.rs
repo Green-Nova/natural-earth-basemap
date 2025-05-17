@@ -1,7 +1,6 @@
 //! Draw the basemap
 
 pub mod draw;
-pub mod projections;
 pub mod styles;
 pub mod utils;
 
@@ -21,5 +20,3 @@ pub struct Map {
     /// The maximum longitude of the raster
     pub lon_max: f64,
 }
-
-
