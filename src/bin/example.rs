@@ -1,14 +1,14 @@
 use std::path::PathBuf;
 
 use clap::Parser;
-use natural_earth_basemap::basemap::{Map, draw_svg::draw_basemap, styles, utils::svg_to_png};
+use natural_earth_basemap::basemap::{draw_basemap, styles, utils::svg_to_png, Map};
 
 /// Visualize Example
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
     /// Map cols (Width of map in pixels )
-    #[arg(long, default_value_t = 8_000)]
+    #[arg(long, default_value_t = 16_000)]
     map_cols: u32,
 
     /// Map rows (Width of map in pixels )

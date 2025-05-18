@@ -3,40 +3,10 @@
 //! This module provides functions for rendering the Natural Earth basemap to SVG.
 //! It handles the conversion of shapefile data into SVG paths and applies the appropriate styles.
 
-use std::path::PathBuf;
-
-use shapefile::Reader;
-use styles::{Layer, LayerStyle};
+use super::styles::{Layer, LayerStyle};
 use svg::{Document, Node, node::element};
 
-use super::{
-    Map, my_module,
-    styles::{self, Style},
-};
-
-/// Draws the complete basemap using the ocean style
-///
-/// This function:
-/// 1. Sets the background using the ocean layer
-/// 2. Loads and draws each layer in sequence
-/// 3. Applies the appropriate styles to each feature
-///
-/// # Arguments
-/// * `map` - The map dimensions and projection settings
-/// * `document` - The SVG document to modify
-/// * `style` - The style to use for the basemap
-pub fn draw_basemap(map: &Map, document: &mut Document, style: &Style) {
-    set_background(map, document, &style.background);
-    for layer in &style.layers {
-        let file_path = PathBuf::from(format!("data/10m_physical/{}", layer.filename));
-        let reader = Reader::from_path(&file_path)
-            .unwrap_or_else(|_| panic!("Error loading shapefile: {}", file_path.display()));
-        my_module::visualize_shapefile(map, reader, document, &layer.layer_style);
-    }
-    // Todo draw graticules
-    // Todo draw user defined content
-    //draw_text((500.0, 500.0), "Hello, world!", document, 12, "black");
-}
+use super::Map;
 
 /// Sets the background of the map using the specified layer
 ///
@@ -132,8 +102,6 @@ pub fn draw_text(
     font_size: u32,
     fill: &str,
 ) {
-    println!("Drawing text: {:?}", text);
-    println!("Position: {:?}", position);
     let text_element = element::Text::new(text)
         .set("x", position.0)
         .set("y", position.1)
