@@ -1,5 +1,5 @@
 //! Different styles for maps
-//! 
+//!
 //! This module provides various map styles that can be used to render the Natural Earth basemap.
 //! Each style defines how different geographic features (land, ocean, lakes, etc.) should be displayed.
 
@@ -24,13 +24,12 @@ pub struct Layer<'a> {
     /// The visual style of this layer
     pub layer_style: LayerStyle<'a>,
     /// The filename of the shapefile containing this layer's data
-    /// (e.g. "ne_10m_land.shp")
+    /// (e.g. "`ne_10m_land.shp`")
     pub filename: &'a str,
 }
 
 /// A complete map style, defining the background and all layers
-pub struct Style<'a> 
-{
+pub struct Style<'a> {
     /// The background layer of the map (typically ocean)
     pub background: Layer<'a>,
     /// The ordered list of layers to be drawn on top of the background
@@ -38,7 +37,7 @@ pub struct Style<'a>
 }
 
 /// Returns a classic map style with a light blue ocean and beige land
-/// 
+///
 /// This style uses a traditional color scheme with:
 /// - Light seagreen ocean
 /// - Wheat-colored land
@@ -119,7 +118,7 @@ pub fn classic_style<'a>() -> Style<'a> {
 }
 
 /// Returns an ocean-focused style that emphasizes bathymetry
-/// 
+///
 /// This style uses a color gradient from light to dark blue to show ocean depth:
 /// - Lightest blue (#fff7fb) for shallow water (0m)
 /// - Darkest blue (#023858) for deep water (10000m)
@@ -295,7 +294,7 @@ pub fn ocean_style<'a>() -> Style<'a> {
 }
 
 /// Returns a minimalistic grey style for high-resolution maps
-/// 
+///
 /// This style uses a simple black and white scheme:
 /// - Transparent silver ocean
 /// - Black land with white borders
@@ -311,22 +310,49 @@ pub fn grey_style<'a>() -> Style<'a> {
             },
             filename: "ne_10m_ocean.shp",
         },
-        layers: vec![
-            Layer {
-                layer_style: LayerStyle {
-                    stroke: "white",
-                    fill: "black",
-                    fill_opacity: "1.0",
-                    stroke_width: "1",
-                },
-                filename: "ne_10m_land.shp",
+        layers: vec![Layer {
+            layer_style: LayerStyle {
+                stroke: "white",
+                fill: "black",
+                fill_opacity: "1.0",
+                stroke_width: "1",
             },
-        ],
+            filename: "ne_10m_land.shp",
+        }],
+    }
+}
+
+/// Returns a minimalistic grey style for high-resolution maps
+///
+/// This style uses a simple black and white scheme:
+/// - Transparent background
+/// - Black land with white borders
+#[must_use]
+pub fn grey_style_transparent<'a>() -> Style<'a> {
+    Style {
+        background: Layer {
+            layer_style: LayerStyle {
+                stroke: "black",
+                fill: "silver",
+                fill_opacity: "0",
+                stroke_width: "0",
+            },
+            filename: "ne_10m_ocean.shp",
+        },
+        layers: vec![Layer {
+            layer_style: LayerStyle {
+                stroke: "white",
+                fill: "black",
+                fill_opacity: "1.0",
+                stroke_width: "1",
+            },
+            filename: "ne_10m_land.shp",
+        }],
     }
 }
 
 /// Returns a minimalistic grey style for low-resolution maps
-/// 
+///
 /// This style uses a simple grey scheme:
 /// - Semi-transparent silver ocean
 /// - Dark grey land without borders
@@ -342,16 +368,14 @@ pub fn grey_style_110<'a>() -> Style<'a> {
             },
             filename: "ne_110m_ocean.shp",
         },
-        layers: vec![
-            Layer {
-                layer_style: LayerStyle {
-                    stroke: "none",
-                    fill: "dimgray",
-                    fill_opacity: "1.0",
-                    stroke_width: "0",
-                },
-                filename: "ne_110m_land.shp",
+        layers: vec![Layer {
+            layer_style: LayerStyle {
+                stroke: "none",
+                fill: "dimgray",
+                fill_opacity: "1.0",
+                stroke_width: "0",
             },
-        ],
+            filename: "ne_110m_land.shp",
+        }],
     }
 }

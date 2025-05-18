@@ -1,6 +1,7 @@
 //! Draw the basemap
 
-pub mod draw;
+pub mod draw_svg;
+pub mod my_module;
 pub mod styles;
 pub mod utils;
 
