@@ -35,7 +35,7 @@ pub fn draw_basemap(map: &Map, document: &mut Document, style: &Style) {
     }
     // Todo draw graticules
     // Todo draw user defined content
-    draw_text((500.0, 500.0), "Hello, world!", document, 12, "black");
+    //draw_text((500.0, 500.0), "Hello, world!", document, 12, "black");
 }
 
 /// Sets the background of the map using the specified layer
@@ -132,6 +132,8 @@ pub fn draw_text(
     font_size: u32,
     fill: &str,
 ) {
+    println!("Drawing text: {:?}", text);
+    println!("Position: {:?}", position);
     let text_element = element::Text::new(text)
         .set("x", position.0)
         .set("y", position.1)

@@ -289,6 +289,25 @@ pub fn ocean_style<'a>() -> Style<'a> {
                 },
                 filename: "ne_10m_rivers_lake_centerlines.shp",
             },
+            Layer {
+                layer_style: LayerStyle {
+                    stroke: "black",
+                    fill: "black",
+                    fill_opacity: "1.0",
+                    stroke_width: "1",
+                },
+                filename: "ne_10m_geography_regions_points.shp",
+            },
+
+            Layer {
+                layer_style: LayerStyle {
+                    stroke: "black",
+                    fill: "black",
+                    fill_opacity: "1.0",
+                    stroke_width: "1",
+                },
+                filename: "ne_10m_geography_regions_elevation_points.shp",
+            },
         ],
     }
 }

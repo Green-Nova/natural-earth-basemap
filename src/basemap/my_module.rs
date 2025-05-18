@@ -4,7 +4,7 @@ use std::io::BufReader;
 use shapefile::{Point, Reader, Shape};
 use svg::{Document, node::element};
 
-use super::draw_svg::{draw_polygon, draw_polyline};
+use super::draw_svg::{draw_polygon, draw_polyline, draw_text};
 use super::utils::mapping_function;
 use super::{Map, styles::LayerStyle};
 
@@ -28,10 +28,37 @@ pub fn visualize_shapefile(
     layer_style: &LayerStyle,
 ) {
     for result in reader.iter_shapes_and_records() {
-        let (shape, _record) = result.expect("Error reading data from shapefile");
+        let (shape, record) = result.expect("Error reading data from shapefile");
 
+        //println!("Record: {:?}", record);
+//println!("Record: {:?}", record.get("scalerank"));
+
+       
         match shape {
-            Shape::Point(_point) => {}
+            Shape::Point(point) => {
+                println!("Point: {:?}", point);
+                let name = record.get("name").unwrap();
+
+                let label = match name {
+                    shapefile::dbase::FieldValue::Character(s) => {
+                        if let Some(label) = s {
+                           label
+                        } else {
+                            &"".to_string()
+                        }
+                    }
+                    _ => {
+                        &"".to_string()
+                    }
+                };
+
+                point_fn(&point, label, map, document, layer_style);
+            }
+            Shape::Multipoint(multi_point) => {
+                for point in multi_point.points() {
+                    println!("MPoint: {:?}", point);
+                }
+            }
             Shape::Polygon(polygon) => {
                 for ring in polygon.rings() {
                     polygon_fn(ring.points(), map, document, layer_style);
@@ -47,6 +74,12 @@ pub fn visualize_shapefile(
         }
     }
 }
+
+fn point_fn(point: &Point, label: &str, map: &Map, document: &mut Document, layer_style: &LayerStyle) {
+    let pt = mapping_function(point.x, point.y, map);
+    draw_text(pt, label, document, 12, layer_style.fill);
+}
+
 
 fn polyline_fn(part: &[Point], map: &Map, document: &mut Document, layer_style: &LayerStyle) {
     let data = element::path::Data::new();
