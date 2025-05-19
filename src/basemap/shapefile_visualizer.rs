@@ -23,6 +23,9 @@ use super::{Map, styles::LayerStyle};
 /// * `reader` - The shapefile reader containing the features
 /// * `document` - The SVG document to modify
 /// * `layer_style` - The style to apply to the features
+///
+/// # Panics
+/// Panics if there is an error reading data from the shapefile or if the 'name' field is missing in a record.
 pub fn visualize_shapefile(
     map: &Map,
     mut reader: Reader<BufReader<File>, BufReader<File>>,
@@ -35,26 +38,19 @@ pub fn visualize_shapefile(
  
         match shape {
             Shape::Point(point) => {
-                let name = record.get("name").unwrap();
+                let name = record.get("name").expect("'name' field missing in record");
 
-                let label = match name {
-                    shapefile::dbase::FieldValue::Character(s) => {
-                        if let Some(label) = s {
-                           label
-                        } else {
-                            &"".to_string()
-                        }
-                    }
-                    _ => {
-                        &"".to_string()
-                    }
+                let label = if let shapefile::dbase::FieldValue::Character(Some(label)) = name {
+                    label
+                } else {
+                    &String::new()
                 };
 
                 point_fn(&point, label, map, document, layer_style);
             }
             Shape::Multipoint(multi_point) => {
                 for point in multi_point.points() {
-                    println!("MPoint: {:?}", point);
+                    println!("MPoint: {point:?}");
                 }
             }
             Shape::Polygon(polygon) => {
