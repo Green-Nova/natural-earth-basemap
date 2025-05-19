@@ -1,3 +1,5 @@
+//! This module provides functionality for visualizing shapefiles as SVG paths.
+
 use std::fs::File;
 use std::io::BufReader;
 
