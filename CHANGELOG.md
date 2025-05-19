@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <csr-read-only-do-not-edit/>
 
- - 13 commits contributed to the release over the course of 5 calendar days.
+ - 14 commits contributed to the release over the course of 5 calendar days.
  - 6 days passed between releases.
  - 0 commits were understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - UPdated Changelog ([`1d3cda7`](https://github.com/Green-Nova/natural-earth-basemap/commit/1d3cda756c57e5eb47fef815dabf5843aa332e38))
     - Updated CHANGELOG ([`2896c80`](https://github.com/Green-Nova/natural-earth-basemap/commit/2896c807d7cf6808bc29180cdf4920e57dfdcb55))
     - Added comment ([`01974f3`](https://github.com/Green-Nova/natural-earth-basemap/commit/01974f3792571302b1fdb41fc74a0d1d52fde367))
     - Refactoring code ([`a670e1f`](https://github.com/Green-Nova/natural-earth-basemap/commit/a670e1fdd340a4292d3407d656e943acf9502da3))
