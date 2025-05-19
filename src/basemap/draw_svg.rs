@@ -38,7 +38,7 @@ pub fn set_background(map: &Map, document: &mut Document, layer: &Layer) {
 /// * `layer_style` - The style to apply to the polygon
 /// * `data` - The initial path data to build upon
 pub fn draw_polygon(
-    pts: &Vec<(f64, f64)>,
+    pts: &[(f64, f64)],
     document: &mut Document,
     layer_style: &LayerStyle,
     data: element::path::Data,
@@ -66,7 +66,7 @@ pub fn draw_polygon(
 /// * `layer_style` - The style to apply to the polyline
 /// * `data` - The initial path data to build upon
 pub fn draw_polyline(
-    pts: &Vec<(f64, f64)>,
+    pts: &[(f64, f64)],
     document: &mut Document,
     layer_style: &LayerStyle,
     data: element::path::Data,
