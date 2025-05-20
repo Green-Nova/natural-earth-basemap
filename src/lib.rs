@@ -9,6 +9,3 @@
 
 /// Basemap
 pub mod basemap;
-
-/// Shapefile Loader
-pub mod shapefile_loader;

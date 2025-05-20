@@ -23,7 +23,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-natural-earth-basemap = "0.1.0"
+natural-earth-basemap = "0.1.2"
 ```
 
 ## Usage

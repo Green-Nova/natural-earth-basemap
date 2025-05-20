@@ -1,14 +1,14 @@
 use std::path::PathBuf;
 
 use clap::Parser;
-use natural_earth_basemap::basemap::{Map, draw::draw_basemap, utils::svg_to_png};
+use natural_earth_basemap::basemap::{draw_basemap, styles, utils::svg_to_png, Map};
 
 /// Visualize Example
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
     /// Map cols (Width of map in pixels )
-    #[arg(long, default_value_t = 8_000)]
+    #[arg(long, default_value_t = 16_000)]
     map_cols: u32,
 
     /// Map rows (Width of map in pixels )
@@ -56,7 +56,8 @@ pub fn main() {
 /// Draw a map
 pub fn draw_map(map: &Map, output_path: &PathBuf) {
     let mut document = svg::Document::new().set("viewBox", (0, 0, map.cols, map.rows));
-    draw_basemap(map, &mut document);
+    let style = styles::ocean_style();
+    draw_basemap(map, &mut document, &style);
 
     svg::save(output_path, &document).expect("Error saving svg");
     svg_to_png(output_path, &PathBuf::from("Map.png"));
