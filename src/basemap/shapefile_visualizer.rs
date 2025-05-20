@@ -43,7 +43,7 @@ pub fn visualize_shapefile(
                 let label = if let shapefile::dbase::FieldValue::Character(Some(label)) = name {
                     label
                 } else {
-                    &String::new()
+                    ""
                 };
 
                 point_fn(&point, label, map, document, layer_style);
