@@ -34,6 +34,42 @@ pub struct Style<'a> {
     pub background: Layer<'a>,
     /// The ordered list of layers to be drawn on top of the background
     pub layers: Vec<Layer<'a>>,
+    /// The style for the graticule grid
+    pub graticule_style: LayerStyle<'a>,
+    /// The style for the equator line
+    pub equator_style: LayerStyle<'a>,
+}
+
+/// Returns the default graticule style
+///
+/// This style uses:
+/// - Light gray (#999999) lines
+/// - 0.5 pixel width
+/// - No fill
+#[must_use]
+pub fn default_graticule_style<'a>() -> LayerStyle<'a> {
+    LayerStyle {
+        fill: "none",
+        fill_opacity: "0.0",
+        stroke: "#999999",
+        stroke_width: "0.5",
+    }
+}
+
+/// Returns the default equator style
+///
+/// This style uses:
+/// - Red (#FF0000) line
+/// - 1.0 pixel width
+/// - No fill
+#[must_use]
+pub fn default_equator_style<'a>() -> LayerStyle<'a> {
+    LayerStyle {
+        fill: "none",
+        fill_opacity: "0.0",
+        stroke: "#FF0000",
+        stroke_width: "1.0",
+    }
 }
 
 /// Returns a classic map style with a light blue ocean and beige land
@@ -58,6 +94,8 @@ pub fn classic_style<'a>() -> Style<'a> {
             },
             filename: "ne_10m_ocean.shp",
         },
+        graticule_style: default_graticule_style(),
+        equator_style: default_equator_style(),
         layers: vec![
             Layer {
                 layer_style: LayerStyle {
@@ -135,6 +173,8 @@ pub fn ocean_style<'a>() -> Style<'a> {
             },
             filename: "ne_10m_bathymetry_A_10000.shp",
         },
+        graticule_style: default_graticule_style(),
+        equator_style: default_equator_style(),
         layers: vec![
             Layer {
                 layer_style: LayerStyle {
@@ -329,6 +369,8 @@ pub fn grey_style<'a>() -> Style<'a> {
             },
             filename: "ne_10m_ocean.shp",
         },
+        graticule_style: default_graticule_style(),
+        equator_style: default_equator_style(),
         layers: vec![Layer {
             layer_style: LayerStyle {
                 stroke: "white",
@@ -358,6 +400,8 @@ pub fn grey_style_transparent<'a>() -> Style<'a> {
             },
             filename: "ne_10m_ocean.shp",
         },
+        graticule_style: default_graticule_style(),
+        equator_style: default_equator_style(),
         layers: vec![Layer {
             layer_style: LayerStyle {
                 stroke: "white",
@@ -387,6 +431,8 @@ pub fn grey_style_110<'a>() -> Style<'a> {
             },
             filename: "ne_110m_ocean.shp",
         },
+        graticule_style: default_graticule_style(),
+        equator_style: default_equator_style(),
         layers: vec![Layer {
             layer_style: LayerStyle {
                 stroke: "none",
