@@ -44,7 +44,7 @@ pub fn draw_polygon(
     data: element::path::Data,
 ) {
     let data = data.move_to(pts[0]);
-    let data = pts.iter().fold(data, |data, position| {
+    let data = pts.iter().skip(1).fold(data, |data, position| {
         data.line_to((position.0, position.1))
     });
 
