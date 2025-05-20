@@ -112,3 +112,24 @@ pub fn draw_text(
 
     document.append(text_element);
 }
+
+/// Draws a circle at a specified location on the map
+///
+/// # Arguments
+/// * `position` - The (x,y) coordinates for the circle center
+/// * `radius` - The radius of the circle in pixels
+/// * `document` - The SVG document to modify
+/// * `fill` - The fill color of the circle
+pub fn draw_circle(
+    position: (f64, f64),
+    radius: u32,
+    document: &mut Document,
+    fill: &str,
+) {
+    let circle = element::Circle::new()
+        .set("r", radius)
+        .set("cx", position.0)
+        .set("cy", position.1)
+        .set("fill", fill);
+    document.append(circle);
+}
