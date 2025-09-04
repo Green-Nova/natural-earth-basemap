@@ -5,14 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.1.2 (2025-09-04)
 
 ### Commit Statistics
 
 <csr-read-only-do-not-edit/>
 
- - 14 commits contributed to the release over the course of 5 calendar days.
- - 6 days passed between releases.
+ - 25 commits contributed to the release over the course of 114 calendar days.
+ - 114 days passed between releases.
  - 0 commits were understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
 
@@ -23,6 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - Updating geo version ([`57447d8`](https://github.com/Green-Nova/natural-earth-basemap/commit/57447d8e92c075f59a34d248e0aabb2a029a2ef6))
+    - Added draw_circle ([`f767090`](https://github.com/Green-Nova/natural-earth-basemap/commit/f7670907f3fffeba7a655d3675bc2ebbdd629e99))
+    - Adding Equator and Graticules ([`7f9c3b1`](https://github.com/Green-Nova/natural-earth-basemap/commit/7f9c3b17c193f41d35d20e0b52848c77d919c7fd))
+    - Merge pull request #3 from Green-Nova/0.1.2 ([`50cbd58`](https://github.com/Green-Nova/natural-earth-basemap/commit/50cbd58e8d8987a4db6b4c521804ed935b9be552))
+    - Update src/basemap/draw_svg.rs ([`61fa452`](https://github.com/Green-Nova/natural-earth-basemap/commit/61fa45202f33ac43a5893b733b62abecf9855a0d))
+    - Update src/basemap/shapefile_visualizer.rs ([`53ef83b`](https://github.com/Green-Nova/natural-earth-basemap/commit/53ef83bc6ffba497881194699e2e3093d5a8e775))
+    - Fixed clippy suggestions in shapefile_visualizer.rs ([`fbed3b4`](https://github.com/Green-Nova/natural-earth-basemap/commit/fbed3b45d0287c25a5ae9b529581bd4847b026db))
+    - Fixed clippy suggestions in draw_svg.rs ([`f961fb7`](https://github.com/Green-Nova/natural-earth-basemap/commit/f961fb78029d5c0d5d7479d93e687f48254dc10f))
+    - Fixing issues raised by clippy ([`94c75a0`](https://github.com/Green-Nova/natural-earth-basemap/commit/94c75a080b6cb231c512c1400b4964324e07951c))
     - UPdated Changelog ([`1d3cda7`](https://github.com/Green-Nova/natural-earth-basemap/commit/1d3cda756c57e5eb47fef815dabf5843aa332e38))
     - Updated CHANGELOG ([`2896c80`](https://github.com/Green-Nova/natural-earth-basemap/commit/2896c807d7cf6808bc29180cdf4920e57dfdcb55))
     - Added comment ([`01974f3`](https://github.com/Green-Nova/natural-earth-basemap/commit/01974f3792571302b1fdb41fc74a0d1d52fde367))
@@ -32,6 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Refactoring ([`d4b562d`](https://github.com/Green-Nova/natural-earth-basemap/commit/d4b562d8ac07cfb65b4f41a3dfbe3f3dc2ec7b65))
     - Added new style ([`0ab4f4a`](https://github.com/Green-Nova/natural-earth-basemap/commit/0ab4f4a8f779eb134e4462c336803094006867c2))
     - Improving Styles ([`22e5d43`](https://github.com/Green-Nova/natural-earth-basemap/commit/22e5d4321aba7fbc09ab67b7b7d23d1c834fa345))
+    - Update README.md ([`5332586`](https://github.com/Green-Nova/natural-earth-basemap/commit/5332586fc7d80b5a1f065dae36bc9a7d28dd8a66))
+    - Adding coveralls code coverage ([`6878f35`](https://github.com/Green-Nova/natural-earth-basemap/commit/6878f35a9e2e62da8e8af5228805453c605be790))
     - Initial commit for v0.1.2 ([`b8aa15a`](https://github.com/Green-Nova/natural-earth-basemap/commit/b8aa15a49e702c5b48ba677c26aa354c16e8beb0))
     - Debugging code ([`4f4764a`](https://github.com/Green-Nova/natural-earth-basemap/commit/4f4764a4dbf158db08b54294d6c240fb2eeb8262))
     - Added globe with clipping ([`ef11ec8`](https://github.com/Green-Nova/natural-earth-basemap/commit/ef11ec8b2687245bdf36beb9a45da25bf6848a26))
