@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <csr-read-only-do-not-edit/>
 
- - 25 commits contributed to the release over the course of 114 calendar days.
+ - 26 commits contributed to the release over the course of 114 calendar days.
  - 114 days passed between releases.
  - 0 commits were understood as [conventional](https://www.conventionalcommits.org).
  - 0 issues like '(#ID)' were seen in commit messages
@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <details><summary>view details</summary>
 
  * **Uncategorized**
+    - Adjusting changelogs prior to release of natural-earth-basemap v0.1.2 ([`d20fd55`](https://github.com/Green-Nova/natural-earth-basemap/commit/d20fd550c9fcaa8ff8e030741ef7d9d57f72f4ec))
     - Updating geo version ([`57447d8`](https://github.com/Green-Nova/natural-earth-basemap/commit/57447d8e92c075f59a34d248e0aabb2a029a2ef6))
     - Added draw_circle ([`f767090`](https://github.com/Green-Nova/natural-earth-basemap/commit/f7670907f3fffeba7a655d3675bc2ebbdd629e99))
     - Adding Equator and Graticules ([`7f9c3b1`](https://github.com/Green-Nova/natural-earth-basemap/commit/7f9c3b17c193f41d35d20e0b52848c77d919c7fd))
